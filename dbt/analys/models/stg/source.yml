@@ -1,0 +1,17 @@
+version: 2 
+
+sources:
+  - name: dreamshop_raw
+    database: capstone-project-alta
+    schema: dreamshop_raw
+    tables: 
+      - name: products
+        description: "Table containing raw products data"
+      - name: sales
+        description: "Table containing raw sales data"
+      - name: returns
+        description: "Table containing raw returns data"
+      - name: customers
+        description: "Table containing raw customers data"
+      - name: customer_reviews
+        description: "Table containing raw customer_reviews data"

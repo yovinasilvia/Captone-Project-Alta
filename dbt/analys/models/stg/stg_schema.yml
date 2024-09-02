@@ -1,0 +1,201 @@
+# version: 2
+
+# models:
+#   - name: stg_customer_reviews
+#     description: "This table stores customer reviews for products."
+#     columns:
+#       - name: review_id
+#         description: "Unique ID for each review."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+#           - unique
+
+#       - name: product_id
+#         description: "ID of the product being reviewed."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+
+#       - name: customer_id
+#         description: "ID of the customer who provided the review."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+
+#       - name: review_dates
+#         description: "The date the review was submitted."
+#         data_type: "date"
+#         data_tests:
+#           - not_null
+
+#       - name: product_ratings
+#         description: "The rating given by the customer (1-5)."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+
+#       - name: product_reviews
+#         description: "The text of the review provided by the customer."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+
+#   - name: stg_customers
+#     description: "This table stores customer information."
+#     columns:
+#       - name: customer_id
+#         description: "Unique ID for each customer."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+#           - unique
+
+#       - name: customer_names
+#         description: "The full name of the customer."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+#       - name: customer_genders
+#         description: "The gender of the customer."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+#       - name: customer_emails
+#         description: "The email address of the customer."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+#           - unique
+
+#       - name: normalized_phone
+#         description: "The normalized phone number of the customer."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+#       - name: customer_address
+#         description: "The address of the customer."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+#       - name: region
+#         description: "The region or geographical area of the customer."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+
+#   - name: stg_products
+#     description: "This table stores information about the products being sold."
+#     columns:
+#       - name: product_id
+#         description: "Unique ID for each product."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+#           - unique
+
+#       - name: product_category
+#         description: "The category of the product."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+#       - name: product_names
+#         description: "The name of the product."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+#       - name: product_descriptions
+#         description: "A description of the product."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+
+#   - name: stg_returns
+#     description: "This table stores information about product returns by customers."
+#     columns:
+#       - name: return_id
+#         description: "Unique ID for each return."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+#           - unique
+
+#       - name: product_id
+#         description: "ID of the product being returned."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+
+#       - name: return_dates
+#         description: "The date the product was returned."
+#         data_type: "date"
+#         data_tests:
+#           - not_null
+
+#       - name: return_qty
+#         description: "The quantity of products being returned."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+
+#       - name: return_reason
+#         description: "The reason for the product return."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+
+#   - name: stg_sales
+#     description: "This table stores information about product sales."
+#     columns:
+#       - name: sale_id
+#         description: "Unique ID for each sale."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+#           - unique
+
+#       - name: product_id
+#         description: "ID of the product being sold."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+
+#       - name: product_names
+#         description: "The name of the product being sold."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+#       - name: sale_dates
+#         description: "The date the sale occurred."
+#         data_type: "date"
+#         data_tests:
+#           - not_null
+
+#       - name: sale_qty
+#         description: "The quantity of products sold."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+
+#       - name: sale_prices
+#         description: "The price per unit of the product sold."
+#         data_type: "numeric"
+#         data_tests:
+#           - not_null
+
+#       - name: total_sales
+#         description: "The total amount of the sale."
+#         data_type: "numeric"
+#         data_tests:
+#           - not_null

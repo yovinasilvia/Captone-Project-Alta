@@ -1,0 +1,81 @@
+# version: 2
+
+# models:
+#   - name: int_customer_review_analysis
+#     description: "This table aggregates and analyzes customer reviews to calculate average ratings and identify common review themes."
+#     columns:
+#       - name: product_id
+#         description: "Unique ID for each product being reviewed."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+
+#       - name: product_category
+#         description: "The average rating given to the product by customers."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+#       - name: avg_rating
+#         description: "The average rating given to the product by customers."
+#         data_type: "float"
+#         data_tests:
+#           - not_null
+
+#       - name: combined_reviews
+#         description: "The combined text of all reviews for the product."
+#         data_type: "varchar"
+#         data_tests:
+#           - not_null
+
+
+#   - name: int_return_analysis
+#     description: "This table combines sales and return data to calculate the return rate for each product."
+#     columns:
+#       - name: product_id
+#         description: "Unique ID for each product."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+
+#       - name: total_returns
+#         description: "The total number of units returned for the product."
+#         data_type: "integer"
+#         data_tests:
+#           - not_null
+
+#       - name: return_rate
+#         description: "The rate at which the product is returned (total_returns / total_sales)."
+#         data_type: "float"
+#         data_tests:
+#           - not_null
+
+
+#   - name: int_sales_with_region
+#     description: "Intermediate table aggregating sales data with region information."
+#     columns:
+#       - name: product_id
+#         description: "Unique identifier for each product."
+#         tests:
+#           - not_null
+
+#       - name: product_name
+#         description: "Name of the product."
+
+#       - name: product_category
+#         description: "Category of the product."
+
+#       - name: sale_dates
+#         description: "Date of the sale for time range analysis."
+
+#       - name: region
+#         description: "Geographic region of the sale."
+
+#       - name: total_sales
+#         description: "Total quantity sold."
+
+#       - name: avg_sales_per_period
+#         description: "Average sales per period."
+
+#       - name: sales_growth
+#         description: "Growth rate of sales between periods."
