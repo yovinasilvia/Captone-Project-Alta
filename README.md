@@ -55,7 +55,7 @@ Create your destination.
 
 Connect your data source with your data destination on Airbyte. At this stage you can schedule the data load.
 
-![connection_airbyte](create-connection-in-airbyte.png)
+![connection_airbyte](documentations/create-connection-in-airbyte.png)
 
 ## Data Modeling on DBT
 ### Install using pip and virtual environments
