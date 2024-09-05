@@ -1,9 +1,9 @@
 WITH sentiment_analysis AS (
     SELECT
-         cr.product_id, 
-         cr.product_reviews, 
+         cr.product_id 
+         , cr.product_reviews
         -- Sentiment classification logic with case-insensitive matching
-        CASE 
+        , CASE 
             WHEN LOWER(product_reviews) LIKE '%impressed%' 
               OR LOWER(product_reviews) LIKE '%great%' 
               OR LOWER(product_reviews) LIKE '%responsive%' 

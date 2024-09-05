@@ -1,8 +1,8 @@
-# CAPTSONE-PROJECT-ELT-ALTA: ELT Pipeline Data Model for Product Performance Analysis
+# Capstone-Project-ELT-Alta: ELT Pipeline Data Model for Product Performance Analysis
 ## Background Case
-DreamShop, a rapidly growing e-commerce platform, has revolutionized how customers shop online by offering a vast range of products from electronics to home essentials. As DreamShop continues to expand its product catalog and customer base, the company faces new challenges in understanding product performance, managing inventory, and enhancing customer satisfaction.
+DreamShop, a rapidly growing e-commerce platform, has revolutionized the way customers shop online by offering a wide range of products, particularly in electronics and home appliances. As DreamShop continues to expand its product catalog and customer base, the company faces new challenges in understanding product performance, managing inventory, and enhancing customer satisfaction.
 
-In an era where data-driven decisions are crucial, DreamShop's management has identified a critical need to harness the power of its data to stay competitive. With millions of transactions occurring daily, along with an ever-increasing volume of customer reviews and product returns, the company must develop an analytical approach to turn raw data into actionable insights.
+In an era where data-driven decisions are crucial, DreamShop's management has identified a critical need to harness the power of its data to stay competitive. With many transactions occurring daily, along with an ever-increasing volume of customer reviews and product returns, the company must develop an analytical approach to turn raw data into actionable insights.
 
 The Challenge
 DreamShop aims to optimize its product offerings by analyzing three key areas:
@@ -29,10 +29,10 @@ To tackle these challenges, DreamShop has embarked on building a robust ELT (Ext
 
 ## Data Pipeline Design
 This data pipeline uses the ELT concept.
-![data_pipeline](documentations/Dreamshop-ELT-Data-Architecture.jpg)
+![data_pipeline](documentations/dreamshop-elt-data-architecture.jpg)
 
 ## ERD
-![erd](documentations/Dreamshop-ERD,png)
+![erd](documentations/dreamshop-erd.jpg)
 
 ## Clone This Repository
 ```
@@ -47,15 +47,15 @@ Password: password
 ```
 Create your source.
 
-![source](documentations/Source-airbyte.png)
+![source](documentations/source-airbyte.png)
 
 Create your destination.
 
-![destination](documentations/Destinations-airbyte.png)
+![destination](documentations/destinations-airbyte.png)
 
 Connect your data source with your data destination on Airbyte. At this stage you can schedule the data load.
 
-![connection_airbyte](create-connection-in-airbyte.png)
+![connection_airbyte](documentations/create-connection-in-airbyte.png)
 
 ## Data Modeling on DBT
 ### Install using pip and virtual environments
@@ -67,7 +67,7 @@ Activate virtual environment
 ```
 dbt_venv\Scripts\activate            # activate the environment for Windows
 ```
-### Install and Setup dbt
+### Install and Setup DBT
 Install dbt-bigquery
 ```
 python -m pip install dbt-bigquery
@@ -100,7 +100,6 @@ models:
 Defining Source and creating your a Model
 ```
 version: 2 
-
 sources:
   - name: dreamshop_raw
     database: capstone-project-alta
@@ -118,7 +117,6 @@ sources:
         description: "Table containing raw customer_reviews data"
 
 version: 2
-
 models:
   - name: stg_customer_reviews
     description: "This table stores customer reviews for products."
@@ -129,37 +127,31 @@ models:
         data_tests:
           - not_null
           - unique
-
       - name: product_id
         description: "ID of the product being reviewed."
         data_type: "integer"
         data_tests:
           - not_null
-
       - name: customer_id
         description: "ID of the customer who provided the review."
         data_type: "integer"
         data_tests:
           - not_null
-
       - name: review_dates
         description: "The date the review was submitted."
         data_type: "date"
         data_tests:
           - not_null
-
       - name: product_ratings
         description: "The rating given by the customer (1-5)."
         data_type: "integer"
         data_tests:
           - not_null
-
       - name: product_reviews
         description: "The text of the review provided by the customer."
         data_type: "varchar"
         data_tests:
           - not_null
-
 
   - name: stg_customers
     description: "This table stores customer information."
@@ -170,44 +162,37 @@ models:
         data_tests:
           - not_null
           - unique
-
       - name: customer_names
         description: "The full name of the customer."
         data_type: "varchar"
         data_tests:
           - not_null
-
       - name: customer_genders
         description: "The gender of the customer."
         data_type: "varchar"
         data_tests:
           - not_null
-
       - name: customer_emails
         description: "The email address of the customer."
         data_type: "varchar"
         data_tests:
           - not_null
           - unique
-
       - name: normalized_phone
         description: "The normalized phone number of the customer."
         data_type: "varchar"
         data_tests:
           - not_null
-
       - name: customer_address
         description: "The address of the customer."
         data_type: "varchar"
         data_tests:
           - not_null
-
       - name: region
         description: "The region or geographical area of the customer."
         data_type: "varchar"
         data_tests:
           - not_null
-
 
   - name: stg_products
     description: "This table stores information about the products being sold."
@@ -218,25 +203,21 @@ models:
         data_tests:
           - not_null
           - unique
-
       - name: product_category
         description: "The category of the product."
         data_type: "varchar"
         data_tests:
           - not_null
-
       - name: product_names
         description: "The name of the product."
         data_type: "varchar"
         data_tests:
           - not_null
-
       - name: product_descriptions
         description: "A description of the product."
         data_type: "varchar"
         data_tests:
           - not_null
-
 
   - name: stg_returns
     description: "This table stores information about product returns by customers."
@@ -247,31 +228,26 @@ models:
         data_tests:
           - not_null
           - unique
-
       - name: product_id
         description: "ID of the product being returned."
         data_type: "integer"
         data_tests:
           - not_null
-
       - name: return_dates
         description: "The date the product was returned."
         data_type: "date"
         data_tests:
           - not_null
-
       - name: return_qty
         description: "The quantity of products being returned."
         data_type: "integer"
         data_tests:
           - not_null
-
       - name: return_reason
         description: "The reason for the product return."
         data_type: "varchar"
         data_tests:
           - not_null
-
 
   - name: stg_sales
     description: "This table stores information about product sales."
@@ -282,37 +258,31 @@ models:
         data_tests:
           - not_null
           - unique
-
       - name: product_id
         description: "ID of the product being sold."
         data_type: "integer"
         data_tests:
           - not_null
-
       - name: product_names
         description: "The name of the product being sold."
         data_type: "varchar"
         data_tests:
           - not_null
-
       - name: sale_dates
         description: "The date the sale occurred."
         data_type: "date"
         data_tests:
           - not_null
-
       - name: sale_qty
         description: "The quantity of products sold."
         data_type: "integer"
         data_tests:
           - not_null
-
       - name: sale_prices
         description: "The price per unit of the product sold."
         data_type: "numeric"
         data_tests:
           - not_null
-
       - name: total_sales
         description: "The total amount of the sale."
         data_type: "numeric"
@@ -331,7 +301,7 @@ This is the result on your bigquery after running dbt successfully
 ![result_dbt](documentations/data-warehouse-bigquery.png)
 
 
-## dbt automation with airflow
+## DBT Automation with Airflow
 Before running the Astro CLI, ensure you [download](https://github.com/astronomer/astro-cli/releases) the installer and add its path to your local environment variables.
 
 <b>Create an Astro Project</b>
@@ -368,7 +338,6 @@ from airflow.decorators import dag, task, task_group
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 from airflow.models.baseoperator import chain
-
 from cosmos import DbtDag
 from cosmos.operators import DbtDocsOperator
 from cosmos.config import RenderConfig
@@ -429,9 +398,12 @@ dbt_cosmos_dag = DbtDag(
 
 # Instantiate the dbt DAG
 dbt_cosmos_dag
+```
 
-# Detailed Explanation
-# Import Statements:
+<b>Detailed Explanation</b>
+</br>
+<b>Import Statements:</b>
+</br>
 * from pendulum import datetime: Imports the datetime function from the Pendulum library for handling date and time operations.
 * from airflow.decorators import dag, task, task_group: Imports decorators to define DAGs, tasks, and task groups in Airflow.
 * from airflow.operators.trigger_dagrun import TriggerDagRunOperator: Imports an operator that triggers another DAG within Airflow.
@@ -444,10 +416,12 @@ dbt_cosmos_dag
 * from cosmos.constants import LoadMode: Imports constants that define load modes for dbt tasks.
 * from dbt.analys.cosmos_config import DBT_CONFIG, DBT_PROJECT_CONFIG: Imports configurations specific to the dbt project.
 
-# Constants:
+<b>Constants:</b>
+</br>
 AIRBYTE_CONN_ID = 'bdad854c-cacf-4ffb-b962-3fb4be38bfdd': Defines a constant that holds the connection ID for Airbyte, which will be used for data extraction.
 
-# Defining the ELT DAG:
+<b>Defining the ELT DAG:</b>
+</br>
 * @dag(...): A decorator that defines a new DAG called extract_and_transform.
 * dag_id="elt_dag": Sets the unique identifier for the DAG.
 * start_date=datetime(2024, 1, 1): Specifies the start date for the DAG.
@@ -455,7 +429,8 @@ AIRBYTE_CONN_ID = 'bdad854c-cacf-4ffb-b962-3fb4be38bfdd': Defines a constant tha
 * tags=["airbyte", "dbt", "bigquery", "elt_dreamshop_data"]: Tags the DAG for easy identification and filtering in the Airflow UI.
 * catchup=False: Disables backfilling of the DAG, meaning it won’t run for any missed dates in the past.
 
-# DAG Function: extract_and_transform():
+<b>DAG Function: extract_and_transform():</b>
+</br>
 * This function defines the tasks that will run within the DAG.
 * Airbyte Sync Task:
     * extract_data = AirbyteTriggerSyncOperator(...): Creates a task to trigger data extraction using Airbyte.
@@ -466,7 +441,8 @@ AIRBYTE_CONN_ID = 'bdad854c-cacf-4ffb-b962-3fb4be38bfdd': Defines a constant tha
     * timeout=3600: Sets a maximum timeout of 1 hour for the sync operation.
     * wait_seconds=3: Sets the wait time between sync checks to 3 seconds.
 
-# Trigger dbt DAG Task:
+<b>Trigger dbt DAG Task:</b>
+</br>
 * trigger_dbt_dag = TriggerDagRunOperator(...): Creates a task to trigger the dbt DAG.
 * task_id="trigger_dbt_dag": Sets the task ID for easy identification.
 * trigger_dag_id="dbt_dreamshop": Specifies the ID of the DAG that this task will trigger.
@@ -474,10 +450,12 @@ AIRBYTE_CONN_ID = 'bdad854c-cacf-4ffb-b962-3fb4be38bfdd': Defines a constant tha
 * poke_interval=30: Sets the interval to check for the completion of the triggered DAG.
 * extract_data >> trigger_dbt_dag: Defines the task sequence, ensuring that the dbt DAG only runs after the Airbyte sync is complete.
 
-# Instantiate the ELT DAG:
+<b>Instantiate the ELT DAG:</b>
+</br>
 extract_and_transform_dag = extract_and_transform(): Instantiates the DAG defined by the extract_and_transform function.
 
-# Define the dbt DAG using Cosmos:
+<b>Define the dbt DAG using Cosmos:</b>
+</br>
 * dbt_cosmos_dag = DbtDag(...): Defines a new DAG specifically for dbt using the DbtDag class from the Cosmos library.
 * dag_id="dbt_dreamshop": Sets the DAG ID for the dbt pipeline.
 * start_date=datetime(2024, 1, 1): Specifies when the DAG should start running.
@@ -489,13 +467,17 @@ extract_and_transform_dag = extract_and_transform(): Instantiates the DAG define
 * load_method=LoadMode.DBT_LS: Specifies the load method to use with dbt.
 * select=["path:models"]: Indicates which models to run.
 
-# Instantiate the dbt DAG:
+<b>Instantiate the dbt DAG:</b>
+</br>
 * dbt_cosmos_dag: Instantiates the DAG created for the dbt pipeline, making it ready to be scheduled and run.
+
 
 <b>Triger DAG</b>
 </br>
 You can trigger the DAG and monitor its progress in the Airflow UI.
 ![dags](documentations/elt-dags.png)
 
+
 ## Marketing campaign analysis visualization
-The visualizations were created using Looker Studio, which provides insights into marketing campaign performance. You can view the visualization [here](link to Looker Studio).
+The visualizations were created using Looker Studio, which provides insights into marketing campaign performance. You can view the visualization [here](https://lookerstudio.google.com/reporting/66e680ba-6d01-48d3-bb45-c7b8ef13227b/page/AfaAE).
+
