@@ -405,72 +405,72 @@ dbt_cosmos_dag
 </br>
 <b>Import Statements:</b>
 </br>
-* from pendulum import datetime: Imports the datetime function from the Pendulum library for handling date and time operations.
-* from airflow.decorators import dag, task, task_group: Imports decorators to define DAGs, tasks, and task groups in Airflow.
-* from airflow.operators.trigger_dagrun import TriggerDagRunOperator: Imports an operator that triggers another DAG within Airflow.
-* from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator: Imports an operator specifically for triggering data syncs in Airbyte.
-* from airflow.models.baseoperator import chain: Imports a utility function to chain multiple tasks together in a sequence.
-* from cosmos import DbtDag: Imports DbtDag, which is used to define dbt-specific DAGs using the Cosmos framework.
-* from cosmos.operators import DbtDocsOperator: Imports an operator for generating dbt documentation.
-* from cosmos.config import RenderConfig: Imports configuration settings for rendering dbt models in DAGs.
-* from cosmos.airflow.task_group import DbtTaskGroup: Imports task groups for organizing dbt-related tasks within Airflow.
-* from cosmos.constants import LoadMode: Imports constants that define load modes for dbt tasks.
-* from dbt.analys.cosmos_config import DBT_CONFIG, DBT_PROJECT_CONFIG: Imports configurations specific to the dbt project.
+* from pendulum import datetime --> Imports the datetime function from the Pendulum library for handling date and time operations.
+* from airflow.decorators import dag, task, task_group --> Imports decorators to define DAGs, tasks, and task groups in Airflow.
+* from airflow.operators.trigger_dagrun import TriggerDagRunOperator --> Imports an operator that triggers another DAG within Airflow.
+* from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator --> Imports an operator specifically for triggering data syncs in Airbyte.
+* from airflow.models.baseoperator import chain --> Imports a utility function to chain multiple tasks together in a sequence.
+* from cosmos import DbtDag -->  Imports DbtDag, which is used to define dbt-specific DAGs using the Cosmos framework.
+* from cosmos.operators import DbtDocsOperator --> Imports an operator for generating dbt documentation.
+* from cosmos.config import RenderConfig --> Imports configuration settings for rendering dbt models in DAGs.
+* from cosmos.airflow.task_group import DbtTaskGroup --> Imports task groups for organizing dbt-related tasks within Airflow.
+* from cosmos.constants import LoadMode --> Imports constants that define load modes for dbt tasks.
+* from dbt.analys.cosmos_config import DBT_CONFIG, DBT_PROJECT_CONFIG --> Imports configurations specific to the dbt project.
 
 <b>Constants:</b>
 </br>
-AIRBYTE_CONN_ID = 'bdad854c-cacf-4ffb-b962-3fb4be38bfdd': Defines a constant that holds the connection ID for Airbyte, which will be used for data extraction.
+AIRBYTE_CONN_ID = 'bdad854c-cacf-4ffb-b962-3fb4be38bfdd' --> Defines a constant that holds the connection ID for Airbyte, which will be used for data extraction.
 
 <b>Defining the ELT DAG:</b>
 </br>
-* @dag(...): A decorator that defines a new DAG called extract_and_transform.
-* dag_id="elt_dag": Sets the unique identifier for the DAG.
-* start_date=datetime(2024, 1, 1): Specifies the start date for the DAG.
-* schedule="@daily": Sets the schedule for the DAG to run daily.
-* tags=["airbyte", "dbt", "bigquery", "elt_dreamshop_data"]: Tags the DAG for easy identification and filtering in the Airflow UI.
-* catchup=False: Disables backfilling of the DAG, meaning it won’t run for any missed dates in the past.
+* @dag(...) --> A decorator that defines a new DAG called extract_and_transform.
+* dag_id="elt_dag" --> Sets the unique identifier for the DAG.
+* start_date=datetime(2024, 1, 1) --> Specifies the start date for the DAG.
+* schedule="@daily" --> Sets the schedule for the DAG to run daily.
+* tags=["airbyte", "dbt", "bigquery", "elt_dreamshop_data"] --> Tags the DAG for easy identification and filtering in the Airflow UI.
+* catchup=False --> Disables backfilling of the DAG, meaning it won’t run for any missed dates in the past.
 
 <b>DAG Function: extract_and_transform():</b>
 </br>
 * This function defines the tasks that will run within the DAG.
 * Airbyte Sync Task:
-    * extract_data = AirbyteTriggerSyncOperator(...): Creates a task to trigger data extraction using Airbyte.
-    * task_id="trigger_airbyte_faker_to_bigquery": Sets the task ID for easy identification.
-    * airbyte_conn_id='airbyte_conn': References the Airbyte connection used for syncing data.
-    * connection_id=AIRBYTE_CONN_ID: Uses the predefined constant to identify the specific Airbyte connection.
-    *  asynchronous=False: Sets the task to run synchronously, meaning it waits for the sync to complete before proceeding.
-    * timeout=3600: Sets a maximum timeout of 1 hour for the sync operation.
-    * wait_seconds=3: Sets the wait time between sync checks to 3 seconds.
+    * extract_data = AirbyteTriggerSyncOperator(...) --> Creates a task to trigger data extraction using Airbyte.
+    * task_id="trigger_airbyte_faker_to_bigquery" --> Sets the task ID for easy identification.
+    * airbyte_conn_id='airbyte_conn' --> References the Airbyte connection used for syncing data.
+    * connection_id=AIRBYTE_CONN_ID --> Uses the predefined constant to identify the specific Airbyte connection.
+    *  asynchronous=False --> Sets the task to run synchronously, meaning it waits for the sync to complete before proceeding.
+    * timeout=3600 --> Sets a maximum timeout of 1 hour for the sync operation.
+    * wait_seconds=3 --> Sets the wait time between sync checks to 3 seconds.
 
 <b>Trigger dbt DAG Task:</b>
 </br>
-* trigger_dbt_dag = TriggerDagRunOperator(...): Creates a task to trigger the dbt DAG.
-* task_id="trigger_dbt_dag": Sets the task ID for easy identification.
-* trigger_dag_id="dbt_dreamshop": Specifies the ID of the DAG that this task will trigger.
-* wait_for_completion=True: Waits for the triggered DAG to complete before proceeding.
-* poke_interval=30: Sets the interval to check for the completion of the triggered DAG.
-* extract_data >> trigger_dbt_dag: Defines the task sequence, ensuring that the dbt DAG only runs after the Airbyte sync is complete.
+* trigger_dbt_dag = TriggerDagRunOperator(...) --> Creates a task to trigger the dbt DAG.
+* task_id="trigger_dbt_dag" --> Sets the task ID for easy identification.
+* trigger_dag_id="dbt_dreamshop" --> Specifies the ID of the DAG that this task will trigger.
+* wait_for_completion=True --> Waits for the triggered DAG to complete before proceeding.
+* poke_interval=30 --> Sets the interval to check for the completion of the triggered DAG.
+* extract_data >> trigger_dbt_dag --> Defines the task sequence, ensuring that the dbt DAG only runs after the Airbyte sync is complete.
 
 <b>Instantiate the ELT DAG:</b>
 </br>
-extract_and_transform_dag = extract_and_transform(): Instantiates the DAG defined by the extract_and_transform function.
+extract_and_transform_dag = extract_and_transform() --> Instantiates the DAG defined by the extract_and_transform function.
 
 <b>Define the dbt DAG using Cosmos:</b>
 </br>
-* dbt_cosmos_dag = DbtDag(...): Defines a new DAG specifically for dbt using the DbtDag class from the Cosmos library.
-* dag_id="dbt_dreamshop": Sets the DAG ID for the dbt pipeline.
-* start_date=datetime(2024, 1, 1): Specifies when the DAG should start running.
-* tags=["dbt", "dreamshop"]: Tags the DAG for easy filtering.
-* catchup=False: Disables backfilling for missed runs.
-* project_config=DBT_PROJECT_CONFIG: Uses the imported dbt project configuration.
-* profile_config=DBT_CONFIG: Uses the imported dbt profile configuration.
-* render_config=RenderConfig(...): Configures how dbt models are loaded and executed.
-* load_method=LoadMode.DBT_LS: Specifies the load method to use with dbt.
-* select=["path:models"]: Indicates which models to run.
+* dbt_cosmos_dag = DbtDag(...) --> Defines a new DAG specifically for dbt using the DbtDag class from the Cosmos library.
+* dag_id="dbt_dreamshop" --> Sets the DAG ID for the dbt pipeline.
+* start_date=datetime(2024, 1, 1) --> Specifies when the DAG should start running.
+* tags=["dbt", "dreamshop"] --> Tags the DAG for easy filtering.
+* catchup=False --> Disables backfilling for missed runs.
+* project_config=DBT_PROJECT_CONFIG --> Uses the imported dbt project configuration.
+* profile_config=DBT_CONFIG --> Uses the imported dbt profile configuration.
+* render_config=RenderConfig(...) --> Configures how dbt models are loaded and executed.
+* load_method=LoadMode.DBT_LS --> Specifies the load method to use with dbt.
+* select=["path:models"] --> Indicates which models to run.
 
 <b>Instantiate the dbt DAG:</b>
 </br>
-* dbt_cosmos_dag: Instantiates the DAG created for the dbt pipeline, making it ready to be scheduled and run.
+* dbt_cosmos_dag --> Instantiates the DAG created for the dbt pipeline, making it ready to be scheduled and run.
 
 
 <b>Triger DAG</b>
