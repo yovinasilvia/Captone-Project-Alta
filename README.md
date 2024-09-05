@@ -40,7 +40,7 @@ This data pipeline uses the ELT concept.
 
 ## Clone This Repository
 ```
-git clone https://github.com/Fiqar-DE4/Team-1-Alta-Capstone-ELT.git
+git clone https://github.com/yovinasilvia/Captone-Project-Alta.git
 ```
 ## Ingesting data on Airbyte
 Run docker [compose-airbyte](airbyte/docker-compose-airbyte.yml) to use airbyte
