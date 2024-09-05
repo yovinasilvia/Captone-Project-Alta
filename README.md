@@ -32,7 +32,11 @@ This data pipeline uses the ELT concept.
 ![data_pipeline](documentations/dreamshop-elt-data-architecture.jpg)
 
 ## ERD
+<<<<<<< HEAD
 ![erd](documentations/dreamshop-erd.jpg)
+=======
+![erd](documentations/Dreamshop-ERD.png)
+>>>>>>> ce333024c78db4ea3ef68cebccbe4ad7d953349a
 
 ## Clone This Repository
 ```
