@@ -39,6 +39,15 @@ This data pipeline uses the ELT concept.
 ```
 git clone https://github.com/yovinasilvia/Captone-Project-Alta.git
 ```
+### Install using pip and virtual environments
+Create new venv
+```
+python -m venv .venv              # create the environment
+```
+Activate virtual environment         
+```
+source .venv\Scripts\activate     # activate the environment for Windows
+```
 ## Ingesting data on Airbyte
 Run docker [compose-airbyte](airbyte/docker-compose-airbyte.yml) to use airbyte
 Then open `localhost:8000` to access Airbyte.
@@ -58,24 +67,21 @@ Connect your data source with your data destination on Airbyte. At this stage yo
 
 ![connection_airbyte](documentations/create-connection-in-airbyte.png)
 
+### Create Airbyte Connection in Airflow Web Server
+* Click Admin --> Connections
+* Input connection id
+* Choose connection type : Airbyte
+* Input host : airbyte-server
+* Inport port : 8001
+* Click Test
+* Click Save
+
 ## Data Modeling on DBT
-### Install using pip and virtual environments
-Create new venv
-```
-python -m venv dbt_venv              # create the environment
-```
-Activate virtual environment         
-```
-dbt_venv\Scripts\activate            # activate the environment for Windows
-```
 ### Install and Setup DBT
 Install dbt-bigquery
 ```
-python -m pip install dbt-bigquery
-```
-Run dbt cli to init dbt with BigQuery as data platform
-```
-dbt init my_dbt_project
+pip install --no-cache-dir astronomer-cosmos[dbt-bigquery]==1.3.2
+pip install --no-cache-dir dbt-bigquery==1.7.6
 ```
 Testing dbt connection. Make sure you are in your DBT project directory when testing the connection
 ```
@@ -98,203 +104,12 @@ models:
       +materialized: table
       +schema: mart
 ```
-Defining Source and creating your a Model
-```
-version: 2 
-sources:
-  - name: dreamshop_raw
-    database: capstone-project-alta
-    schema: dreamshop_raw
-    tables: 
-      - name: products
-        description: "Table containing raw products data"
-      - name: sales
-        description: "Table containing raw sales data"
-      - name: returns
-        description: "Table containing raw returns data"
-      - name: customers
-        description: "Table containing raw customers data"
-      - name: customer_reviews
-        description: "Table containing raw customer_reviews data"
-
-version: 2
-models:
-  - name: stg_customer_reviews
-    description: "This table stores customer reviews for products."
-    columns:
-      - name: review_id
-        description: "Unique ID for each review."
-        data_type: "integer"
-        data_tests:
-          - not_null
-          - unique
-      - name: product_id
-        description: "ID of the product being reviewed."
-        data_type: "integer"
-        data_tests:
-          - not_null
-      - name: customer_id
-        description: "ID of the customer who provided the review."
-        data_type: "integer"
-        data_tests:
-          - not_null
-      - name: review_dates
-        description: "The date the review was submitted."
-        data_type: "date"
-        data_tests:
-          - not_null
-      - name: product_ratings
-        description: "The rating given by the customer (1-5)."
-        data_type: "integer"
-        data_tests:
-          - not_null
-      - name: product_reviews
-        description: "The text of the review provided by the customer."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-
-  - name: stg_customers
-    description: "This table stores customer information."
-    columns:
-      - name: customer_id
-        description: "Unique ID for each customer."
-        data_type: "integer"
-        data_tests:
-          - not_null
-          - unique
-      - name: customer_names
-        description: "The full name of the customer."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-      - name: customer_genders
-        description: "The gender of the customer."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-      - name: customer_emails
-        description: "The email address of the customer."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-          - unique
-      - name: normalized_phone
-        description: "The normalized phone number of the customer."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-      - name: customer_address
-        description: "The address of the customer."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-      - name: region
-        description: "The region or geographical area of the customer."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-
-  - name: stg_products
-    description: "This table stores information about the products being sold."
-    columns:
-      - name: product_id
-        description: "Unique ID for each product."
-        data_type: "integer"
-        data_tests:
-          - not_null
-          - unique
-      - name: product_category
-        description: "The category of the product."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-      - name: product_names
-        description: "The name of the product."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-      - name: product_descriptions
-        description: "A description of the product."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-
-  - name: stg_returns
-    description: "This table stores information about product returns by customers."
-    columns:
-      - name: return_id
-        description: "Unique ID for each return."
-        data_type: "integer"
-        data_tests:
-          - not_null
-          - unique
-      - name: product_id
-        description: "ID of the product being returned."
-        data_type: "integer"
-        data_tests:
-          - not_null
-      - name: return_dates
-        description: "The date the product was returned."
-        data_type: "date"
-        data_tests:
-          - not_null
-      - name: return_qty
-        description: "The quantity of products being returned."
-        data_type: "integer"
-        data_tests:
-          - not_null
-      - name: return_reason
-        description: "The reason for the product return."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-
-  - name: stg_sales
-    description: "This table stores information about product sales."
-    columns:
-      - name: sale_id
-        description: "Unique ID for each sale."
-        data_type: "integer"
-        data_tests:
-          - not_null
-          - unique
-      - name: product_id
-        description: "ID of the product being sold."
-        data_type: "integer"
-        data_tests:
-          - not_null
-      - name: product_names
-        description: "The name of the product being sold."
-        data_type: "varchar"
-        data_tests:
-          - not_null
-      - name: sale_dates
-        description: "The date the sale occurred."
-        data_type: "date"
-        data_tests:
-          - not_null
-      - name: sale_qty
-        description: "The quantity of products sold."
-        data_type: "integer"
-        data_tests:
-          - not_null
-      - name: sale_prices
-        description: "The price per unit of the product sold."
-        data_type: "numeric"
-        data_tests:
-          - not_null
-      - name: total_sales
-        description: "The total amount of the sale."
-        data_type: "numeric"
-        data_tests:
-          - not_null
-```
-### Run and test your model
+### Defining Source and Creating DBT Model
+* Copy paste all folder and files in model dbt\analys folder
+### Run your model
 Once you create a model, you can then run your model
 ```
 dbt run
-dbt test
 ```
 ### Results after creating the model
 This is the result on your bigquery after running dbt successfully
@@ -302,29 +117,12 @@ This is the result on your bigquery after running dbt successfully
 ![result_dbt](documentations/data-warehouse-bigquery.png)
 
 
-## DBT Automation with Airflow
-Before running the Astro CLI, ensure you [download](https://github.com/astronomer/astro-cli/releases) the installer and add its path to your local environment variables.
-
-<b>Create an Astro Project</b>
-</br>
-To create a new Astro project, use the command:
-```
-astro dev init
-```
-This command sets up all necessary project files for running Airflow locally, including example DAGs that you can immediately execute.
+## Automation Pipeline with Airflow
 
 <b>Run Airflow Locally</b>
 </br>
-To run Airflow locally, first, add the following command to your [dockerfile](dbt/analys/Dockerfile).
-```
-RUN python -m venv dbt_venv && source dbt_venv/bin/activate && \
-    pip install --no-cache-dir dbt-bigquery==1.7.6 && deactivate
-```
-To start your Airflow environment locally, navigate to your project directory and run:
-```
-astro dev start
-```
-Once the project builds successfully, you can access the Airflow UI in your browser at https://localhost:8080/ using the following credentials:
+To run Airflow locally, first, Run docker [compose-airflow](airflow/docker-compose-airflow.yml) to use airflow
+Then you can access the Airflow UI in your browser at https://localhost:8080/ using the following credentials:
 ```
 username : airflow
 password : airflow
