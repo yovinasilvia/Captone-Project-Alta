@@ -49,7 +49,7 @@ Activate virtual environment
 source .venv\Scripts\activate     # activate the environment for Windows
 ```
 ## Ingesting data on Airbyte
-In the Airbyte directory, run docker [compose-airbyte](airbyte/docker-compose-airbyte.yml) to use airbyte
+In the Airbyte directory, run docker [compose-airbyte](Airbyte/docker-compose-airbyte.yml) to use airbyte
 ```
 docker compose up -d
 ``` 
@@ -124,7 +124,7 @@ This is the result on your bigquery after running dbt successfully
 
 <b>Run Airflow Locally</b>
 </br>
-To run Airflow locally, first you need to go to the Airflow directory and run docker [compose-airflow](airflow/docker-compose-airflow.yml) to use airflow
+To run Airflow locally, first you need to go to the Airflow directory and run docker [compose-airflow](Airflow/docker-compose-airflow.yml) to use airflow
 ```
 docker compose up -d
 ``` 
