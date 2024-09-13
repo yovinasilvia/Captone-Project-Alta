@@ -161,11 +161,11 @@ AIRBYTE_CONN_ID = 'bdad854c-cacf-4ffb-b962-3fb4be38bfdd'
 )
 def extract_and_transform():
     """
-    Runs the connection "Faker to BigQuery" on Airbyte and then triggers the dbt DAG.
+    Runs the connection "Airbyte to BigQuery" on Airbyte and then triggers the dbt DAG.
     """
     # Airbyte sync task
     extract_data = AirbyteTriggerSyncOperator(
-        task_id="trigger_airbyte_faker_to_bigquery",
+        task_id="trigger_airbyte_to_bigquery",
         airbyte_conn_id='airbyte_conn',
         connection_id=AIRBYTE_CONN_ID,  # Menggunakan konstanta yang sudah didefinisikan
         asynchronous=False,
@@ -234,7 +234,7 @@ AIRBYTE_CONN_ID = 'bdad854c-cacf-4ffb-b962-3fb4be38bfdd' --> Defines a constant 
 * This function defines the tasks that will run within the DAG.
 * Airbyte Sync Task:
     * extract_data = AirbyteTriggerSyncOperator(...) --> Creates a task to trigger data extraction using Airbyte.
-    * task_id="trigger_airbyte_faker_to_bigquery" --> Sets the task ID for easy identification.
+    * task_id="trigger_airbyte_to_bigquery" --> Sets the task ID for easy identification.
     * airbyte_conn_id='airbyte_conn' --> References the Airbyte connection used for syncing data.
     * connection_id=AIRBYTE_CONN_ID --> Uses the predefined constant to identify the specific Airbyte connection.
     *  asynchronous=False --> Sets the task to run synchronously, meaning it waits for the sync to complete before proceeding.
