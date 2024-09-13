@@ -49,7 +49,7 @@ Activate virtual environment
 source .venv\Scripts\activate     # activate the environment for Windows
 ```
 ## Ingesting data on Airbyte
-Run docker [compose-airbyte](airbyte/docker-compose-airbyte.yml) to use airbyte
+In the Airbyte directory, run docker [compose-airbyte](airbyte/docker-compose-airbyte.yml) to use airbyte
 ```
 docker compose up -d
 ``` 
@@ -109,6 +109,7 @@ models:
 ```
 ### Defining Source and Creating DBT Model
 * Copy paste all folder and files in model dbt\analys folder
+
 ### Run your model
 Once you create a model, you can then run your model
 ```
@@ -119,12 +120,11 @@ This is the result on your bigquery after running dbt successfully
 
 ![result_dbt](documentations/data-warehouse-bigquery.png)
 
-
 ## Automation Pipeline with Airflow
 
 <b>Run Airflow Locally</b>
 </br>
-To run Airflow locally, first, run docker [compose-airflow](airflow/docker-compose-airflow.yml) to use airflow
+To run Airflow locally, first you need to go to the Airflow directory and run docker [compose-airflow](airflow/docker-compose-airflow.yml) to use airflow
 ```
 docker compose up -d
 ``` 
@@ -152,7 +152,6 @@ from dbt.analys.cosmos_config import DBT_CONFIG, DBT_PROJECT_CONFIG
 
 AIRBYTE_CONN_ID = 'bdad854c-cacf-4ffb-b962-3fb4be38bfdd'
 
-# Define the ELT DAG
 @dag(
     dag_id="elt_dag",
     start_date=datetime(2024, 1, 1),
@@ -174,7 +173,6 @@ def extract_and_transform():
         wait_seconds=3
     )
 
-    # Trigger for dbt DAG
     trigger_dbt_dag = TriggerDagRunOperator(
         task_id="trigger_dbt_dag",
         trigger_dag_id="dbt_dreamshop",
@@ -184,10 +182,8 @@ def extract_and_transform():
 
     extract_data >> trigger_dbt_dag
 
-# Instantiate the ELT DAG
 extract_and_transform_dag = extract_and_transform()
 
-# Define the dbt DAG using DbtDag from the cosmos library
 dbt_cosmos_dag = DbtDag(
     dag_id="dbt_dreamshop",
     start_date=datetime(2024, 1, 1),
@@ -201,7 +197,6 @@ dbt_cosmos_dag = DbtDag(
     )
 )
 
-# Instantiate the dbt DAG
 dbt_cosmos_dag
 ```
 
