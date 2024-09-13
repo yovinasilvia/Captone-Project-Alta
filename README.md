@@ -21,11 +21,11 @@ To tackle these challenges, DreamShop has embarked on building a robust ELT (Ext
 
 * CSV and SQL (Data Source)
 * PostgreSQL (Database)
-* Airbyte: To seamlessly extract data from PostgreSQL databases and CSV files.
-* BigQuery: As the central data warehouse, providing scalable storage and rapid querying capabilities.
-* Data Build Tool (DBT): For transforming raw data into clean, structured formats that support in-depth analysis.
-* Airflow: To orchestrate and automate the pipeline, ensuring data flows efficiently and reliably from extraction to visualization.
-* Looker Studio: To create interactive dashboards that provide stakeholders with real-time insights into product performance.
+* Airbyte
+* BigQuery
+* Data Build Tool (DBT)
+* Airflow
+* Looker Studio
 
 ## Data Pipeline Design
 This data pipeline uses the ELT concept.
@@ -39,7 +39,7 @@ This data pipeline uses the ELT concept.
 ```
 git clone https://github.com/yovinasilvia/Captone-Project-Alta.git
 ```
-### Install using pip and virtual environments
+### Create and Activate Virtual Environments
 Create new venv
 ```
 python -m venv .venv              # create the environment
@@ -50,6 +50,9 @@ source .venv\Scripts\activate     # activate the environment for Windows
 ```
 ## Ingesting data on Airbyte
 Run docker [compose-airbyte](airbyte/docker-compose-airbyte.yml) to use airbyte
+```
+docker compose up -d
+``` 
 Then open `localhost:8000` to access Airbyte.
 ```
 Username: airbyte
@@ -121,7 +124,10 @@ This is the result on your bigquery after running dbt successfully
 
 <b>Run Airflow Locally</b>
 </br>
-To run Airflow locally, first, Run docker [compose-airflow](airflow/docker-compose-airflow.yml) to use airflow
+To run Airflow locally, first, run docker [compose-airflow](airflow/docker-compose-airflow.yml) to use airflow
+```
+docker compose up -d
+``` 
 Then you can access the Airflow UI in your browser at https://localhost:8080/ using the following credentials:
 ```
 username : airflow
