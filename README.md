@@ -1,4 +1,4 @@
-# Capstone-Project-ELT-Alta: ELT Pipeline Data Model for Product Performance Analysis
+# DreamShop: ELT Pipeline Data Model for Product Performance Analysis
 ## Background Case
 DreamShop, a rapidly growing e-commerce platform, has revolutionized the way customers shop online by offering a wide range of products, particularly in electronics and home appliances. As DreamShop continues to expand its product catalog and customer base, the company faces new challenges in understanding product performance, managing inventory, and enhancing customer satisfaction.
 
